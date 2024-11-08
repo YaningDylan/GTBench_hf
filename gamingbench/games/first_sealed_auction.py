@@ -38,4 +38,4 @@ class FirstSealedAuction(OpenSpielGame):
         except Exception as e:
             self.logger.info("Unsuccessful interpreting LLM move")
             self.logger.info(action)
-            return None
+            return Nonej

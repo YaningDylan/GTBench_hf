@@ -1,10 +1,12 @@
 
 import os
+import sys
 from langchain.chat_models import ChatOpenAI, ChatAnyscale
 from langchain_community.chat_models import ChatOpenAI, ChatAnyscale
 from langchain_community.llms import DeepInfra
 from langchain.schema import SystemMessage, HumanMessage, AIMessage
-
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from llama import LLaMAChat
 
 def write_to_file(file_path, content):
     with open(file_path, 'w') as file:
@@ -29,6 +31,17 @@ def chat_llm(messages, model, temperature, max_tokens, n, timeout, stop, return_
                             n=1,
                             model_name=model,
                             request_timeout=timeout)
+        
+    elif model.__contains__("llama"):
+        os.environ["HUGGINGFACE_TOKEN"] = "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"
+        iterated_query = True
+        chat = LLaMAChat(
+            model_name=model,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            request_timeout=timeout
+        )
+        
     else:
         # deepinfra
         iterated_query = True
